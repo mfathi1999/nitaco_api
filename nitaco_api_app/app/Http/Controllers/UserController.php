@@ -38,8 +38,12 @@ class UserController extends Controller
 
         //get location cordinate
         
+        $response = Http::get("https://api.mapbox.com/geocoding/v5/mapbox.places/{$fields['living_city']}.json?access_token=pk.eyJ1IjoibWZhdGhpMTk5OSIsImEiOiJjbDNyNnF6dWQwZG5pM2Rua2tmOGFteHIwIn0.YKSiOkax4qqt2DQ3Uz_w9A");
 
+        $longitude = $response['features'][0]["center"][0];
+        $latitude = $response['features'][0]["center"][1];
 
+        
 
         // save the request
         $new_User = New User;
@@ -48,6 +52,8 @@ class UserController extends Controller
         $new_User->family_name = $fields['family_name'];
         $new_User->email = $fields['email'];
         $new_User->password = $fields['password'];
+        $new_User->longitude_of_living_city = $longitude; 
+        $new_User->latitude_of_living_city =  $latitude;
 
         $new_User->save();
 
