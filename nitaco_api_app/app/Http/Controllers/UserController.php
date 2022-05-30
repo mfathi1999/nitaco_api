@@ -45,26 +45,6 @@ class UserController extends Controller
 
         $new_User->save();
 
-
-
-
-
-        // User::create([
-        //     'first_name' => $fields['first_name'],
-        //     'family_name' => $fields['family_name'],
-        //     'email' => $fields['email'],
-        //     'password' => $fields['password'],
-        // ]);
-
-
-        // User::create($request->all());
-        // User::create([
-        //     'first_name' => "javati",
-        //     'family_name' => "nie",
-        //     'email' => "kno3@gmail.com",
-        //     'password' => "1234",
-        // ]);
-
     }
 
     /**
