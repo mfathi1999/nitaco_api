@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Http;
 
 class UserController extends Controller
 {
@@ -34,6 +35,11 @@ class UserController extends Controller
             'living_city' => 'required',
             
         ]);
+
+        //get location cordinate
+        
+
+
 
         // save the request
         $new_User = New User;
