@@ -37,16 +37,21 @@ class UserController extends Controller
         ]);
 
         //get location cordinate
-        
-        $response = Http::get("https://api.mapbox.com/geocoding/v5/mapbox.places/{$fields['living_city']}.json?access_token=pk.eyJ1IjoibWZhdGhpMTk5OSIsImEiOiJjbDNyNnF6dWQwZG5pM2Rua2tmOGFteHIwIn0.YKSiOkax4qqt2DQ3Uz_w9A");
+        $api_URL = "https://api.mapbox.com/geocoding/v5/mapbox.places/{$fields['living_city']}.json";
+        $access_token = "access_token=pk.eyJ1IjoibWZhdGhpMTk5OSIsImEiOiJjbDNyNnF6dWQwZG5pM2Rua2tmOGFteHIwIn0.YKSiOkax4qqt2DQ3Uz_w9A";
+
+
+        $response = Http::get("{$api_URL}?{$access_token}");
 
         $longitude = $response['features'][0]["center"][0];
         $latitude = $response['features'][0]["center"][1];
 
         
-
+        
         // save the request
         $new_User = New User;
+
+
 
         $new_User->first_name = $fields['first_name'];
         $new_User->family_name = $fields['family_name'];
