@@ -26,25 +26,26 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //request validation
-        $fields =  $request->validate([
-            'first_name' => 'required',
-            'family_name' => 'required',
-            'email' => 'required',
-            'password' => 'required',
-            'living_city' => 'required',
+        // //request validation
+        // $fields =  $request->validate([
+        //     'first_name' => 'required',
+        //     'family_name' => 'required',
+        //     'email' => 'required',
+        //     'password' => 'required',
+        //     'living_city' => 'required',
             
-        ]);
+        // ]);
 
-        //get location cordinate
-        $api_URL = "https://api.mapbox.com/geocoding/v5/mapbox.places/{$fields['living_city']}.json";
-        $access_token = "access_token=pk.eyJ1IjoibWZhdGhpMTk5OSIsImEiOiJjbDNyNnF6dWQwZG5pM2Rua2tmOGFteHIwIn0.YKSiOkax4qqt2DQ3Uz_w9A";
+        // //get location cordinate
+        // $api_URL = "https://api.mapbox.com/geocoding/v5/mapbox.places/{$fields['living_city']}.json";
+        // $access_token = "access_token=pk.eyJ1IjoibWZhdGhpMTk5OSIsImEiOiJjbDNyNnF6dWQwZG5pM2Rua2tmOGFteHIwIn0.YKSiOkax4qqt2DQ3Uz_w9A";
 
 
-        $response = Http::get("{$api_URL}?{$access_token}");
+        // $response = Http::get("{$api_URL}?{$access_token}");
 
-        $longitude = $response['features'][0]["center"][0];
-        $latitude = $response['features'][0]["center"][1];
+        // // try except for unkown places
+        // $longitude = $response['features'][0]["center"][0];
+        // $latitude = $response['features'][0]["center"][1];
 
         
         
