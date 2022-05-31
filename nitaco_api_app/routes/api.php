@@ -1,7 +1,7 @@
 <?php
 
 
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,4 +21,19 @@ use Illuminate\Support\Facades\Route;
 // });
 
 
-Route::post('/register',[UserController::class,'store']);
+// public routes
+// Route::post('/register',[UserController::class,'store']);
+Route::post('/register',[AuthController::class,'register_with_email']);
+Route::post('/login',[AuthController::class,'login_with_email']);
+
+// protected routes
+
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/info', function () {
+        return "user info";
+    });
+    Route::post('logout',[AuthController::class,'logout']);
+    Route::get('/user/profile', function () {
+        // Uses first & second middleware...
+    });
+});
