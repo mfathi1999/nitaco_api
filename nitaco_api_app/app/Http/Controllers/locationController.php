@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+
+
 
 class locationController extends Controller
 {
@@ -14,7 +18,7 @@ class locationController extends Controller
 
     public function forward_geocoding($search_text){
 
-        $response = Http::get("{$api_URL}{$search_text}?{$access_token}");
+        $response = Http::get("{$this->api_URL}{$search_text}.json?{$this->access_token}");
 
         return $response;
 

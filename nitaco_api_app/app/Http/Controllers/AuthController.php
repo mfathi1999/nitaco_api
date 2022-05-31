@@ -14,11 +14,11 @@ class AuthController extends Controller
 
     // ];
     protected $register_validate_condition = [
-        'first_name' => 'required',
-        'family_name' => 'required',
-        'email' => 'required',
-        'password' => 'required',
-        'living_city' => 'required',
+        'first_name' => 'required|string',
+        'family_name' => 'required|string',
+        'email' => 'required|string|unique:users,email',
+        'password' => 'required|string',
+        'living_city' => 'required|string',
     ];
 
     public function login_with_email(){
@@ -28,46 +28,39 @@ class AuthController extends Controller
     public function register_with_email(Request $request){
 
         // validation request
-        // $fields = $request->validate($register_validate_condition);
-        $fields = $request->validate([
-            'first_name' => 'required',
-            'family_name' => 'required',
-            'email' => 'required',
-            'password' => 'required',
-            'living_city' => 'required',]);
-
+        $fields = $request->validate($this->register_validate_condition);
         
             
-        return $fields;
-        return gettype($fields);
         
         // get location
         $location = new locationController;
-        $location->get_longitude_latitude($fields['living_city']);
+        $cordinate = $location->get_longitude_latitude($fields['living_city']);
         
         
         
         // try except for unkown places
-        $longitude = $location['longitude'];
-        $latitude = $location['latitude'];
+        $longitude = $cordinate['longitude'];
+        $latitude =  $cordinate['latitude'];
         
+        // return gettype($longitude);
         $fields['longitude_of_living_city'] = $longitude;
         $fields['latitude_of_living_city'] = $latitude;
-
-
-        // array_push($fields,'longitude_of_living_city'=>$longitude,'latitude_of_living_city'=>$latitude);
         
 
         // save
 
         // userController instance
         $user_candidate =  new UserController;
-        $user_candidate->store();
+        $user_created = $user_candidate->store($fields);
 
         // user instance
+        $token = $user_created->createToken('myapptoken')->plainTextToken;
 
-
+        $response =[
+            'user' => $user_created,
+            'token' => $token
+        ];
         // make response
-
+        return $response;
     }
 }

@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Http;    
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -24,30 +25,8 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store($fields)
     {
-        // //request validation
-        // $fields =  $request->validate([
-        //     'first_name' => 'required',
-        //     'family_name' => 'required',
-        //     'email' => 'required',
-        //     'password' => 'required',
-        //     'living_city' => 'required',
-            
-        // ]);
-
-        // //get location cordinate
-        // $api_URL = "https://api.mapbox.com/geocoding/v5/mapbox.places/{$fields['living_city']}.json";
-        // $access_token = "access_token=pk.eyJ1IjoibWZhdGhpMTk5OSIsImEiOiJjbDNyNnF6dWQwZG5pM2Rua2tmOGFteHIwIn0.YKSiOkax4qqt2DQ3Uz_w9A";
-
-
-        // $response = Http::get("{$api_URL}?{$access_token}");
-
-        // // try except for unkown places
-        // $longitude = $response['features'][0]["center"][0];
-        // $latitude = $response['features'][0]["center"][1];
-
-        
         
         // save the request
         $new_User = New User;
@@ -57,11 +36,13 @@ class UserController extends Controller
         $new_User->first_name = $fields['first_name'];
         $new_User->family_name = $fields['family_name'];
         $new_User->email = $fields['email'];
-        $new_User->password = $fields['password'];
-        $new_User->longitude_of_living_city = $longitude; 
-        $new_User->latitude_of_living_city =  $latitude;
+        $new_User->password = bcrypt($fields['password']);
+        $new_User->longitude_of_living_city = $fields['longitude_of_living_city']; 
+        $new_User->latitude_of_living_city =  $fields['latitude_of_living_city'];
 
         $new_User->save();
+
+        return $new_User;
 
     }
 
