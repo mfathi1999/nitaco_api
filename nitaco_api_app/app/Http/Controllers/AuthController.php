@@ -23,7 +23,31 @@ class AuthController extends Controller
     ];
 
     public function login_with_email(Request $request){
+        // validate request
+        $fields = $request->validate($this->login_validate_condition);
 
+        $user_check = new UserController;
+        // check email
+        $user_candidate = $user_check->show_with_email($fields['email']);
+
+        // return $user_check->check_password($user_candidate['id'],$fields['password']);
+        
+        if (!$user_candidate || !$user_check->check_password($user_candidate['id'],$fields['password'])){
+            return response([
+                'message' => 'email or password incorrect'
+            ],401);
+        }
+        
+        // check if token exist tell user
+        
+        $token = $user_candidate->createToken('myapptoken')->plainTextToken;
+
+        $response =[
+            'user' => $user_candidate,
+            'token' => $token
+        ];
+
+        return response($response,200);
     }
 
     public function register_with_email(Request $request){
@@ -63,7 +87,7 @@ class AuthController extends Controller
             'token' => $token
         ];
         // make response
-        return $response;
+        return response( $response,201);
 
     }
 

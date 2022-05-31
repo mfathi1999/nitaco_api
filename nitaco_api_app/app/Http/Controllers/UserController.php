@@ -56,6 +56,30 @@ class UserController extends Controller
     {
         //
     }
+    
+    /**
+     * show_with_email
+     *
+     * @param  string $email
+     * @return void
+     */
+    public function show_with_email($email){
+        $found_email = User::where('email',$email)->first();
+
+        return $found_email;
+        
+    }
+
+    public function check_password($id , $password){
+        $found_user = User::where('id',$id)->first();
+        // return Hash::check($password, $found_user->password);
+        if(!$found_user || !Hash::check($password, $found_user->password)){
+            return 0;
+        }
+
+        return 1;
+    }
+
 
     /**
      * Update the specified resource in storage.
