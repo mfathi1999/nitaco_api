@@ -24,15 +24,15 @@ use Illuminate\Support\Facades\Route;
 // public routes
 // Route::post('/register',[UserController::class,'store']);
 Route::post('/register',[AuthController::class,'register_with_email']);
-
+Route::post('/login',[AuthController::class,'login_with_email']);
 
 // protected routes
 
 Route::middleware(['auth:sanctum'])->group(function () {
-    Route::get('/login', function () {
-        // Uses first & second middleware...
+    Route::get('/info', function () {
+        return "user info";
     });
- 
+    Route::post('logout',[AuthController::class,'logout']);
     Route::get('/user/profile', function () {
         // Uses first & second middleware...
     });

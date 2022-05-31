@@ -10,9 +10,10 @@ class AuthController extends Controller
 {
     //
 
-    // protected login_validate_condition = [
-
-    // ];
+    protected $login_validate_condition = [
+        'email' => 'required|string',
+        'password' => 'required|string',
+    ];
     protected $register_validate_condition = [
         'first_name' => 'required|string',
         'family_name' => 'required|string',
@@ -21,7 +22,7 @@ class AuthController extends Controller
         'living_city' => 'required|string',
     ];
 
-    public function login_with_email(){
+    public function login_with_email(Request $request){
 
     }
 
@@ -47,6 +48,7 @@ class AuthController extends Controller
         $fields['latitude_of_living_city'] = $latitude;
         
 
+
         // save
 
         // userController instance
@@ -62,5 +64,15 @@ class AuthController extends Controller
         ];
         // make response
         return $response;
+
+    }
+
+    public function logout(Request $request){
+        auth()->user()->tokens()->delete();
+
+        return [
+            'message' => 'logged out'
+        ];
+
     }
 }
