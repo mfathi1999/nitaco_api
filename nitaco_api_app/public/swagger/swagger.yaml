@@ -1,0 +1,269 @@
+swagger: '2.0'
+x-stoplight:
+  id: wcw6le1djwla5
+info:
+  title: nitaco_api
+  version: '1.0'
+host: 'localhost:3000'
+schemes:
+  - http
+produces:
+  - application/json
+consumes:
+  - application/json
+paths:
+  /register:
+    post:
+      summary: ''
+      operationId: post-register
+      responses:
+        '201':
+          description: Created
+          schema:
+            type: object
+            properties:
+              user:
+                type: array
+                items: {}
+              token:
+                type: string
+          examples:
+            example-1:
+              user:
+                - first_name: سجاد
+                - family_name: محمدی
+                - email: example@gmail.com
+                - longitude_of_living_city: 51.407
+                - latitude_of_living_city: 35.7117
+                - updated_at: '2022-06-02T14:51:17.000000Z'
+                - created_at: '2022-06-02T14:51:17.000000Z'
+                - id: 8
+              token: 9|hwf6Awk1lSjLPI04eykP76iWrh4nCdYKFAkFv6NC
+            example-2:
+              user:
+                - first_name: sajad
+                - family_name: Mohammadi
+                - email: example@gmail.com
+                - longitude_of_living_city: 51.407
+                - latitude_of_living_city: 35.7117
+                - updated_at: '2022-06-02T14:51:17.000000Z'
+                - created_at: '2022-06-02T14:51:17.000000Z'
+                - id: 8
+              token: 9|hwf6Awk1lSjLPI04eykP76iWrh4nCdYKFAkFv6NC
+        '422':
+          description: Unprocessable Entity (WebDAV)
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+              error:
+                type: array
+                items: {}
+          examples:
+            example-1:
+              message: The given data was invalid.
+              errors:
+                first_name:
+                  - The first name field is required.
+                family_name:
+                  - The family name field is required.
+                email:
+                  - The email field is required.
+                password:
+                  - The password field is required.
+                living_city:
+                  - The living city field is required.
+            example-2:
+              message: The given data was invalid.
+              errors:
+                email:
+                  - The email has already been taken.
+      description: Post user information for registration.
+      parameters:
+        - type: string
+          in: header
+          name: accept
+          description: application/json
+        - in: body
+          name: body
+          schema:
+            type: object
+            properties:
+              first_name:
+                type: string
+              family_name:
+                type: string
+              email:
+                type: string
+              password:
+                type: string
+              living_city:
+                type: string
+          description: ''
+          x-examples:
+            example-1:
+              first_name: Mohamad
+              family_name: Fathi
+              email: example@gmail.com
+              password: example@#password123
+              living_city: isfahan
+            example-2:
+              first_name: محمد
+              family_name: فتحی
+              email: example@gmail.com
+              password: example@#password123
+              living_city: اصفهان
+  /login:
+    post:
+      summary: ''
+      operationId: post-login
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+            properties:
+              user:
+                type: array
+                items: {}
+              token:
+                type: string
+          examples:
+            example-1:
+              user:
+                id: 8
+                first_name: سجاد
+                family_name: محمدی
+                email: example@gmail.com
+                email_verified_at: null
+                longitude_of_living_city: '51.4070000'
+                latitude_of_living_city: '35.7117000'
+                created_at: '2022-06-02T14:51:17.000000Z'
+                updated_at: '2022-06-02T14:51:17.000000Z'
+              token: 10|mNUjxnkRh6UX6BvPe7uPBFX38gqrwkQCaf7dBcY5
+            example-2:
+              user:
+                id: 8
+                first_name: Sadjad
+                family_name: Mohammadi
+                email: example@gmail.com
+                email_verified_at: null
+                longitude_of_living_city: '51.4070000'
+                latitude_of_living_city: '35.7117000'
+                created_at: '2022-06-02T14:51:17.000000Z'
+                updated_at: '2022-06-02T14:51:17.000000Z'
+              token: 10|mNUjxnkRh6UX6BvPe7uPBFX38gqrwkQCaf7dBcY5
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          examples:
+            example-1:
+              message: email or password incorrect
+      description: Post email and password for login uer.
+      parameters:
+        - type: string
+          in: header
+          name: accept
+          description: application/json
+  /logout:
+    post:
+      summary: ''
+      operationId: post-logout
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          examples:
+            example-1:
+              message: logged out
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          examples:
+            example-1:
+              message: Unauthenticated.
+      parameters:
+        - type: string
+          in: header
+          name: token
+          description: Bearer Token
+      description: send User access token by a post request to logging out
+definitions:
+  User:
+    title: User
+    type: object
+    properties:
+      id:
+        type: integer
+        description: Unique identifier for the given user.
+        minimum: 1
+      first_name:
+        type: string
+      family_name:
+        type: string
+      email:
+        type: string
+        format: email
+      email_verified_at:
+        type: string
+        format: date
+        example: '1997-10-31'
+      password:
+        type: string
+        description: Set to true if the user's email has been verified.
+      longitude_of_living_city:
+        type: number
+        format: date
+        description: The date that the user was created.
+      latitude_of_living_city:
+        type: number
+      remember_token:
+        type: string
+      created_at:
+        type: string
+      updated_at:
+        type: string
+    required:
+      - id
+      - first_name
+      - family_name
+      - email
+      - password
+    x-examples:
+      example-1:
+        id: 1
+        first_name: Mohammad
+        family_name: Fathi
+        email: user@example.com
+        email_verified_at: '2022-06-02 12:31:34'
+        password: example@#Password123
+        longitude_of_living_city: 52.51667
+        latitude_of_living_city: 26.290242
+        remember_token: zq0APTch5xySTGnZ8ScxSeVfLHCJDm5pohtiAPQwEbG171JI9GPSg1eZwx36
+        created_at: '2022-05-31 05:27:42'
+        updated_at: '2022-05-31 05:27:42'
+      example-2:
+        id: 1
+        first_name: محمد
+        family_name: فتحی
+        email: user@example.com
+        email_verified_at: '2022-06-02 12:31:34'
+        password: example@#Password123
+        longitude_of_living_city: 52.51667
+        latitude_of_living_city: 26.290242
+        remember_token: zq0APTch5xySTGnZ8ScxSeVfLHCJDm5pohtiAPQwEbG171JI9GPSg1eZwx36
+        created_at: '2022-05-31 05:27:42'
+        updated_at: '2022-05-31 05:27:42'
